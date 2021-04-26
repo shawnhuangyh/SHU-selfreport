@@ -1,6 +1,7 @@
 import base64
 import re
 import rsa
+import time
 
 import requests
 from bs4 import BeautifulSoup
@@ -49,6 +50,7 @@ def login(username, password):
 
         except Exception as e:
             print(e)
+            time.sleep(120)
             continue
         break
 
@@ -58,6 +60,7 @@ def login(username, password):
             r = sess.get(url)
         except Exception as e:
             print(e)
+            time.sleep(120)
             continue
         break
 
@@ -65,10 +68,7 @@ def login(username, password):
     view_state = soup.find('input', attrs={'name': '__VIEWSTATE'})
 
     if view_state is None or 'invalid_grant' in r.text:
-        print(f'{username} 登录失败')
         print(r.text)
         return
-
-    print(f'登录成功')
 
     return sess
